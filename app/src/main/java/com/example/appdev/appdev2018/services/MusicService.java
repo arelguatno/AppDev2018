@@ -1,4 +1,4 @@
-package com.example.appdev.appdev2018;
+package com.example.appdev.appdev2018.services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.media.MediaPlayer.OnErrorListener;
 import android.os.Binder;
 import android.os.IBinder;
 import android.widget.Toast;
+
+import com.example.appdev.appdev2018.R;
 
 public class MusicService extends Service implements OnErrorListener {
 
@@ -18,7 +20,7 @@ public class MusicService extends Service implements OnErrorListener {
     }
 
     public class ServiceBinder extends Binder {
-        MusicService getService() {
+        public MusicService getService() {
             return MusicService.this;
         }
     }
@@ -32,12 +34,12 @@ public class MusicService extends Service implements OnErrorListener {
     public void onCreate() {
         super.onCreate();
 
-        mPlayer = MediaPlayer.create(this, R.raw.intro);
+        mPlayer = MediaPlayer.create(this, R.raw.havana_trap_remix);
         mPlayer.setOnErrorListener(this);
 
         if (mPlayer != null) {
-            mPlayer.setLooping(false);
-            mPlayer.setVolume(100, 100);
+            mPlayer.setLooping(true);
+            mPlayer.setVolume(90, 90);
         }
 
 
