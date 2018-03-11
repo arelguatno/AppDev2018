@@ -19,12 +19,6 @@ public class MusicService extends Service implements OnErrorListener {
     public MusicService() {
     }
 
-    public class ServiceBinder extends Binder {
-        public MusicService getService() {
-            return MusicService.this;
-        }
-    }
-
     @Override
     public IBinder onBind(Intent arg0) {
         return mBinder;
@@ -53,7 +47,6 @@ public class MusicService extends Service implements OnErrorListener {
             }
         });
     }
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
@@ -85,7 +78,6 @@ public class MusicService extends Service implements OnErrorListener {
         mPlayer = null;
     }
 
-
     @Override
     public void onDestroy()
 
@@ -114,6 +106,12 @@ public class MusicService extends Service implements OnErrorListener {
             }
         }
         return false;
+    }
+
+    public class ServiceBinder extends Binder {
+        public MusicService getService() {
+            return MusicService.this;
+        }
     }
 }
 
