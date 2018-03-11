@@ -28,7 +28,7 @@ public class MusicService extends Service implements OnErrorListener {
     public void onCreate() {
         super.onCreate();
 
-        mPlayer = MediaPlayer.create(this, R.raw.havana_trap_remix);
+        mPlayer = MediaPlayer.create(this, R.raw.beat_fever);
         mPlayer.setOnErrorListener(this);
 
         if (mPlayer != null) {

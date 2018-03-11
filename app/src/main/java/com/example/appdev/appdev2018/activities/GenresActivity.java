@@ -1,5 +1,6 @@
 package com.example.appdev.appdev2018.activities;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import com.example.appdev.appdev2018.R;
 import com.example.appdev.appdev2018.adapter.AlbumsAdapter;
 import com.example.appdev.appdev2018.pojos.Album;
+import com.example.appdev.appdev2018.services.MusicService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,8 @@ public class GenresActivity extends BaseActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
+
+
         prepareAlbums();
     }
 
@@ -46,10 +50,10 @@ public class GenresActivity extends BaseActivity {
      */
     private void prepareAlbums() {
         int[] covers = new int[]{
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background,
+                R.drawable.opm_bg,
+                R.drawable.pop_music_bg,
+                R.drawable.romance_bg,
+                R.drawable.party_bg,
                 R.drawable.ic_launcher_background,
                 R.drawable.ic_launcher_background,
                 R.drawable.ic_launcher_background,
@@ -127,6 +131,4 @@ public class GenresActivity extends BaseActivity {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
-
-
 }

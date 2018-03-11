@@ -15,8 +15,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // Full Screen
         setToFullScreen();
-
         setContentView(R.layout.activity_main);
+
         doBindService();
 
         // Start Music Service
@@ -26,25 +26,23 @@ public class MainActivity extends BaseActivity {
 
     }
 
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (misPlaying) {
-            mServ.pauseMusic();
-            misPlaying = false;
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!misPlaying) {
-            mServ.resumeMusic();
-            misPlaying = true;
-        }
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if (misPlaying) {
+//            mServ.pauseMusic();
+//            misPlaying = false;
+//        }
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (!misPlaying) {
+//            mServ.resumeMusic();
+//            misPlaying = true;
+//        }
+//    }
 
     public void play_button(View view){
         Intent intent = new Intent(this, GenresActivity.class);
