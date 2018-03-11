@@ -8,9 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.example.appdev.appdev2018.R;
 import com.example.appdev.appdev2018.adapter.AlbumsAdapter;
 import com.example.appdev.appdev2018.pojos.Album;
