@@ -12,5 +12,6 @@
     <string name="action_play_next">Play Next</string>
     <string name="backdrop_title">GENRES</string>
     <string name="backdrop_subtitle">This season top 20 albums</string>
+    <string name="title_activity_single_player_activity">Song</string>
 
 </resources>

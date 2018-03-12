@@ -12,23 +12,23 @@
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <service
             android:name=".services.MusicService"
-            android:stopWithTask="true"/>
+            android:stopWithTask="true" />
 
         <activity
             android:name=".activities.GenresActivity"
             android:label="@string/title_activity_genres"
-            android:parentActivityName=".activities.MainActivity"/>
+            android:parentActivityName=".activities.MainActivity" />
 
-        <activity
-            android:name=".activities.SinglePlayerGameActivity"
-            android:label="@string/title_activity_single_player_game"
-            android:parentActivityName=".activities.GenresActivity"></activity>
+        <activity android:name=".activities.SinglePlayerGameActivity"
+            android:label="@string/title_activity_single_player_activity"
+            android:parentActivityName=".activities.GenresActivity" ></activity>
     </application>
 
 </manifest>

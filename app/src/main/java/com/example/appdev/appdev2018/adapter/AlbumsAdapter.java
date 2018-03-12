@@ -1,6 +1,7 @@
 package com.example.appdev.appdev2018.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.appdev.appdev2018.R;
+import com.example.appdev.appdev2018.activities.SinglePlayerGameActivity;
 import com.example.appdev.appdev2018.pojos.Album;
 
 import java.util.List;
@@ -35,6 +37,16 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             title = (TextView) view.findViewById(R.id.title);
             count = (TextView) view.findViewById(R.id.count);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
+
+            thumbnail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(mContext, title.getText().toString(), Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(view.getContext(), SinglePlayerGameActivity.class);
+                    view.getContext().startActivity(intent);
+                }
+            });
         }
     }
 
