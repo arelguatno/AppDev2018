@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">AppDev </string>
+    <string name="app_name">^_^ </string>
 
-    <string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
+    <string name="facebook_application_id" translatable="false">2007489842840827</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fbYOUR_APP_ID</string>
 
     <string name="title_activity_genres">Genres</string>
@@ -13,5 +13,6 @@
     <string name="backdrop_title">GENRES</string>
     <string name="backdrop_subtitle">This season top 20 albums</string>
     <string name="title_activity_single_player_activity">Song</string>
+
 
 </resources>

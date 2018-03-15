@@ -7,7 +7,7 @@ import android.view.View;
 import com.example.appdev.appdev2018.R;
 
 public class SinglePlayerGameActivity extends BaseActivity {
-    MediaPlayer mp;
+    static MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
