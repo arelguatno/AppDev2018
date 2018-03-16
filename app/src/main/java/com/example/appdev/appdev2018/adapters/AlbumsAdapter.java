@@ -1,4 +1,4 @@
-package com.example.appdev.appdev2018.adapter;
+package com.example.appdev.appdev2018.adapters;
 
 import android.content.Context;
 import android.content.Intent;

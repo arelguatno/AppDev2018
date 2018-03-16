@@ -10,7 +10,7 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.example.appdev.appdev2018.R;
-import com.example.appdev.appdev2018.adapter.AlbumsAdapter;
+import com.example.appdev.appdev2018.adapters.AlbumsAdapter;
 import com.example.appdev.appdev2018.pojos.Album;
 
 import java.util.ArrayList;

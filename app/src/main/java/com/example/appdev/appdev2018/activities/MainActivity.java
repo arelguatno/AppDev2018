@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.appdev.appdev2018.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -52,7 +56,16 @@ public class MainActivity extends BaseActivity {
 
         bgMusic = MediaPlayer.create(this, R.raw.beat_fever);
 
-        if(!iBgMusicsPlaying){
+        findViewById(R.id.imageView).setVisibility(View.GONE);
+        findViewById(R.id.imageView3).setVisibility(View.GONE);
+        findViewById(R.id.imageView4).setVisibility(View.GONE);
+        findViewById(R.id.textView2).setVisibility(View.GONE);
+        findViewById(R.id.textView).setVisibility(View.GONE);
+        findViewById(R.id.imageView5).setVisibility(View.GONE);
+        findViewById(R.id.imageView6).setVisibility(View.GONE);
+
+
+        if (!iBgMusicsPlaying) {
             bgMusic.setLooping(true);
             bgMusic.start();
             iBgMusicsPlaying = true;
@@ -89,7 +102,6 @@ public class MainActivity extends BaseActivity {
             }
         });
         // [END initialize_fblogin]
-
     }
 
     @Override
@@ -102,7 +114,7 @@ public class MainActivity extends BaseActivity {
         super.onResume();
     }
 
-    public void play_button(View view){
+    public void play_button(View view) {
         Intent intent = new Intent(this, GenresActivity.class);
         this.startActivity(intent);
     }
@@ -118,21 +130,42 @@ public class MainActivity extends BaseActivity {
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
+
             findViewById(R.id.signInButton).setVisibility(View.GONE);
             findViewById(R.id.button_facebook_login).setVisibility(View.GONE);
+            findViewById(R.id.imageView).setVisibility(View.VISIBLE);
+            findViewById(R.id.imageView3).setVisibility(View.VISIBLE);
+            findViewById(R.id.imageView4).setVisibility(View.VISIBLE);
+            findViewById(R.id.textView2).setVisibility(View.VISIBLE);
+            findViewById(R.id.textView).setVisibility(View.VISIBLE);
+            findViewById(R.id.imageView5).setVisibility(View.VISIBLE);
+            findViewById(R.id.imageView6).setVisibility(View.VISIBLE);
+
+            Glide.with(this)
+                    .load(mAuth.getCurrentUser().getPhotoUrl())
+                    .into((ImageView) findViewById(R.id.imageView));
+
         } else {
             findViewById(R.id.signInButton).setVisibility(View.VISIBLE);
             findViewById(R.id.button_facebook_login).setVisibility(View.VISIBLE);
 
+            findViewById(R.id.imageView).setVisibility(View.GONE);
+            findViewById(R.id.imageView3).setVisibility(View.GONE);
+            findViewById(R.id.imageView4).setVisibility(View.GONE);
+            findViewById(R.id.textView2).setVisibility(View.GONE);
+            findViewById(R.id.textView).setVisibility(View.GONE);
+            findViewById(R.id.imageView5).setVisibility(View.GONE);
+            findViewById(R.id.imageView6).setVisibility(View.GONE);
+
         }
     }
 
-    public void logout_facebook (View v){
-        final FirebaseUser currentUser = mAuth.getCurrentUser();
+    public void logout_facebook(View v) {
+        final
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setMessage("Logged in as : ");
+        builder.setMessage("Logged in as : " + mAuth.getCurrentUser().getDisplayName());
 
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
@@ -141,8 +174,7 @@ public class MainActivity extends BaseActivity {
 
                 FirebaseAuth.getInstance().signOut();
                 LoginManager.getInstance().logOut();
-
-                updateUI(currentUser);
+                updateUI(null);
                 dialog.dismiss();
             }
         });
@@ -160,11 +192,7 @@ public class MainActivity extends BaseActivity {
         alert.show();
 
 
-
-
-
     }
-
 
 
     @Override
