@@ -2,7 +2,9 @@ package com.example.appdev.appdev2018.activities;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.appdev.appdev2018.R;
 
@@ -15,14 +17,13 @@ public class SinglePlayerGameActivity extends BaseActivity {
         setToFullScreen();
         setContentView(R.layout.activity_single_player_game);
 
-        mp = MediaPlayer.create(this, R.raw.hayaan_mo_sila);
-        appPauseMusic();
+        int resID = R.raw.pop1_hayaan_mo_sila;
+        mp = MediaPlayer.create(this, resID);
+        bgPauseMusic();
     }
 
     public void start_button(View v){
-        if(mp.isPlaying()){
-            mp.stop();
-        }else{
+        if(!mp.isPlaying()){
             mp.start();
         }
     }
@@ -30,8 +31,20 @@ public class SinglePlayerGameActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        appResumeMusic();
+        bgResumeMusic();
         mp.stop();
         mp.release();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                bgResumeMusic();
+                mp.stop();
+                mp.release();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

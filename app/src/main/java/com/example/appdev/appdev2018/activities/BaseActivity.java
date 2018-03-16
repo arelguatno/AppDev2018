@@ -15,11 +15,11 @@ import com.example.appdev.appdev2018.services.MusicService;
 public class BaseActivity extends AppCompatActivity {
 
 //    private boolean mIsBound = false;
-    protected MusicService mServ;
+//    protected MusicService mServ;
     public ProgressDialog mProgressDialog;
-    static MediaPlayer bgMusic;
+    protected  static MediaPlayer bgMusic;
     private int bgMusicLength = 0;
-    static boolean isPlaying = false;
+    static boolean iBgMusicsPlaying = false;
 
 
 //    private ServiceConnection Scon = new ServiceConnection() {
@@ -75,7 +75,7 @@ public class BaseActivity extends AppCompatActivity {
         hideProgressDialog();
     }
 
-    public void appPauseMusic() {
+    public void bgPauseMusic() {
         if (bgMusic.isPlaying()) {
             bgMusic.pause();
             bgMusicLength = bgMusic.getCurrentPosition();
@@ -83,14 +83,14 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void appResumeMusic() {
+    public void bgResumeMusic() {
         if (bgMusic.isPlaying() == false) {
             bgMusic.seekTo(bgMusicLength);
             bgMusic.start();
         }
     }
 
-    public void appStopMusic() {
+    public void bgStopMusic() {
         bgMusic.stop();
         bgMusic.release();
         bgMusic = null;

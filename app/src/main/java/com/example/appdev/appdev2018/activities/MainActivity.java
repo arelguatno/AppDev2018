@@ -1,10 +1,12 @@
 package com.example.appdev.appdev2018.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,10 +52,10 @@ public class MainActivity extends BaseActivity {
 
         bgMusic = MediaPlayer.create(this, R.raw.beat_fever);
 
-        if(!isPlaying){
+        if(!iBgMusicsPlaying){
             bgMusic.setLooping(true);
             bgMusic.start();
-            isPlaying = true;
+            iBgMusicsPlaying = true;
         }
 
         mAuth = FirebaseAuth.getInstance();
@@ -115,15 +118,51 @@ public class MainActivity extends BaseActivity {
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            findViewById(R.id.player_constraintLayout).setVisibility(View.VISIBLE);
             findViewById(R.id.signInButton).setVisibility(View.GONE);
             findViewById(R.id.button_facebook_login).setVisibility(View.GONE);
         } else {
-            findViewById(R.id.player_constraintLayout).setVisibility(View.GONE);
             findViewById(R.id.signInButton).setVisibility(View.VISIBLE);
             findViewById(R.id.button_facebook_login).setVisibility(View.VISIBLE);
 
         }
+    }
+
+    public void logout_facebook (View v){
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("Logged in as : ");
+
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+
+                FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
+
+                updateUI(currentUser);
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+
+
+
+
+
     }
 
 

@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">^_^ </string>
 
-    <string name="facebook_application_id" translatable="false">2007489842840827</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">fbYOUR_APP_ID</string>
+    <string name="facebook_app_id">2007489842840827</string>
+    <string name="fb_login_protocol_scheme">fb2007489842840827</string>
 
     <string name="title_activity_genres">Genres</string>
     <string name="title_activity_single_player_game">Song</string>
