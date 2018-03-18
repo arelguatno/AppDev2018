@@ -1,7 +1,6 @@
 package com.example.appdev.appdev2018.activities;
 
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,12 +15,14 @@ import com.example.appdev.appdev2018.interfaces.Single_player_blank_fields_ViewE
 public class SinglePlayerGameActivity extends BaseActivity implements Single_Player_4_buttons_ViewEvents, Single_player_blank_fields_ViewEvents {
     static MediaPlayer mp;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setToFullScreen();
         setContentView(R.layout.activity_single_player_game);
 
+        //Todo: Hardcoded for now, but need a song ID to connect DB and raw folder
         int resID = R.raw.pop1_hayaan_mo_sila;
         mp = MediaPlayer.create(this, resID);
         bgPauseMusic();
@@ -37,17 +38,36 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
                 return;
             }
 
+            // Load songs
+
+            //Todo: This should be dynamic and not hardcoded
             Bundle bundle = new Bundle();
             bundle.putString("correct_answer","hayaan*mo*sila");
 
-            Single_player_blank_fields firstFragment = new Single_player_blank_fields();
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            firstFragment.setArguments(bundle);
+            // Random fragment generator
 
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, firstFragment).commit();
+            int getRandNum = (int) ((Math.random() * 2) + 1);
+            // 1 = 4 buttons
+            // 2 = blank fields
+
+            if(getRandNum == 1){
+                Single_player_4_buttons firstFragment = new Single_player_4_buttons();
+                firstFragment.setArguments(bundle);
+
+                // Add the fragment to the 'fragment_container' FrameLayout
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, firstFragment).commit();
+
+            }else{
+                Single_player_blank_fields firstFragment = new Single_player_blank_fields();
+                firstFragment.setArguments(bundle);
+
+                // Add the fragment to the 'fragment_container' FrameLayout
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, firstFragment).commit();
+            }
+
+
         }
     }
 
