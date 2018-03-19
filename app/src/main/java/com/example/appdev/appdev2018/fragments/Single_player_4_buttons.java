@@ -32,6 +32,7 @@ public class Single_player_4_buttons extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private Single_Player_4_buttons_ViewEvents viewClicked;
+    private int listOfButtons[] = {R.id.s_button1, R.id.s_button2, R.id.s_button3, R.id.s_button4};
 
     public Single_player_4_buttons() {
         // Required empty public constructor
@@ -70,6 +71,8 @@ public class Single_player_4_buttons extends Fragment {
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_single_player_4_buttons, container, false);
+        String strtext = getArguments().getString("correct_answer");
+        loadTextButtons(v,strtext);
 
         Button btn1 = v.findViewById(R.id.s_button1);
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +108,43 @@ public class Single_player_4_buttons extends Fragment {
 
 
         return v;
+    }
+
+    private void loadTextButtons(View v, String answer) {
+        Button btn;
+        // Clear buttons text
+        for (int x = 0; x < listOfButtons.length; x++){
+            btn = v.findViewById(listOfButtons[x]);
+            btn.setText("");
+        }
+
+        int getRandPos = (int) ((Math.random() * 4) + 1);
+        switch (getRandPos){
+            case 1:
+                btn = v.findViewById(listOfButtons[0]);
+                btn.setText(answer);
+                break;
+            case 2:
+                btn = v.findViewById(listOfButtons[1]);
+                btn.setText(answer);
+                break;
+            case 3:
+                btn = v.findViewById(listOfButtons[2]);
+                btn.setText(answer);
+                break;
+            case 4:
+                btn = v.findViewById(listOfButtons[3]);
+                btn.setText(answer);
+                break;
+        }
+
+        for (int x = 0; x < listOfButtons.length; x++){
+            btn = v.findViewById(listOfButtons[x]);
+            if(btn.getText().toString() == ""){
+                btn.setText("Generated Text");
+            }
+        }
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

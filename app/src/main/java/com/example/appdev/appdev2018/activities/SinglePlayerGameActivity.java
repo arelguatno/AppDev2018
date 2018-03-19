@@ -23,7 +23,7 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
         setContentView(R.layout.activity_single_player_game);
 
         //Todo: Hardcoded for now, but need a song ID to connect DB and raw folder
-        int resID = R.raw.pop1_hayaan_mo_sila;
+        int resID = R.raw.humble;
         mp = MediaPlayer.create(this, resID);
         bgPauseMusic();
 
@@ -47,8 +47,8 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
             // Random fragment generator
 
             int getRandNum = (int) ((Math.random() * 2) + 1);
-            // 1 = 4 buttons
-            // 2 = blank fields
+//             1 = 4 buttons
+//             2 = blank fields
 
             if(getRandNum == 1){
                 Single_player_4_buttons firstFragment = new Single_player_4_buttons();
@@ -118,7 +118,7 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
     }
 
     @Override
-    public void sample_method() {
+    public void fieldText_anyButtonPress(String s) {
 
     }
 }

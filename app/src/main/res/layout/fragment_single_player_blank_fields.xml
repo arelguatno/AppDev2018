@@ -18,7 +18,7 @@
         android:gravity="center_horizontal"
         android:singleLine="true"
         android:text="___ ___ ___ __ ____"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,30 +44,35 @@
         app:layout_constraintVertical_bias="0.100000024">
 
         <Button
+            android:id="@+id/s_4_btn1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
         <Button
+            android:id="@+id/s_4_btn2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
         <Button
+            android:id="@+id/s_4_btn3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
         <Button
+            android:id="@+id/s_4_btn4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
         <Button
+            android:id="@+id/s_4_btn5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
@@ -94,30 +99,35 @@
         app:layout_constraintVertical_bias="0.0">
 
         <Button
+            android:id="@+id/s_4_btn6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
         <Button
+            android:id="@+id/s_4_btn7"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
         <Button
+            android:id="@+id/s_4_btn8"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
         <Button
+            android:id="@+id/s_4_btn9"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
         <Button
+            android:id="@+id/s_4_btn10"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
@@ -145,38 +155,41 @@
         app:layout_constraintVertical_bias="0.00999999">
 
         <Button
+            android:id="@+id/s_4_btn11"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
         <Button
+            android:id="@+id/s_4_btn12"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
         <Button
+            android:id="@+id/s_4_btn13"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
         <Button
+            android:id="@+id/s_4_btn14"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
         <Button
+            android:id="@+id/s_4_btn15"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="A" />
 
     </LinearLayout>
-
-
 
 
 </android.support.constraint.ConstraintLayout>
