@@ -2,8 +2,10 @@ package com.example.appdev.appdev2018.activities;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.appdev.appdev2018.R;
@@ -12,8 +14,13 @@ import com.example.appdev.appdev2018.fragments.Single_player_blank_fields;
 import com.example.appdev.appdev2018.interfaces.Single_Player_4_buttons_ViewEvents;
 import com.example.appdev.appdev2018.interfaces.Single_player_blank_fields_ViewEvents;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 public class SinglePlayerGameActivity extends BaseActivity implements Single_Player_4_buttons_ViewEvents, Single_player_blank_fields_ViewEvents {
     static MediaPlayer mp;
+    ProgressBar progressBarCircle;
 
 
     @Override
@@ -25,6 +32,9 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
         //Todo: Hardcoded for now, but need a song ID to connect DB and raw folder
         int resID = R.raw.humble;
         mp = MediaPlayer.create(this, resID);
+        progressBarCircle = findViewById(R.id.progress_bar_circle);
+        progressBarCircle.setMax(mp.getDuration());
+        progressBarCircle.setProgress(mp.getDuration());
         bgPauseMusic();
 
         // Check that the activity is using the layout version with
@@ -74,6 +84,21 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
     public void start_button(View v){
         if(!mp.isPlaying()){
             mp.start();
+
+            final ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    service.shutdown();
+                    progressBarCircle.setProgress(mp.getDuration());
+                }
+            });
+            service.scheduleWithFixedDelay(new Runnable(){
+                @Override
+                public void run() {
+                    progressBarCircle.setProgress(mp.getDuration() - mp.getCurrentPosition());
+                }
+            }, 1, 1, TimeUnit.MICROSECONDS);
         }
     }
 
