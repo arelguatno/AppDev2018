@@ -6,46 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.appdev.appdev2018.services.MusicService;
-
 /**
  * Created by aguatno on 3/11/18.
  */
 
 public class BaseActivity extends AppCompatActivity {
-
-//    private boolean mIsBound = false;
-//    protected MusicService mServ;
     public ProgressDialog mProgressDialog;
     protected  static MediaPlayer bgMusic;
     private int bgMusicLength = 0;
     static boolean iBgMusicsPlaying = false;
 
-
-//    private ServiceConnection Scon = new ServiceConnection() {
-//
-//        public void onServiceConnected(ComponentName name, IBinder
-//                binder) {
-//            mServ = ((MusicService.ServiceBinder) binder).getService();
-//        }
-//
-//        public void onServiceDisconnected(ComponentName name) {
-//            mServ = null;
-//        }
-//    };
-//
-//    void doBindService() {
-//        bindService(new Intent(this, MusicService.class),
-//                Scon, Context.BIND_AUTO_CREATE);
-//        mIsBound = true;
-//    }
-//
-//    void doUnbindService() {
-//        if (mIsBound) {
-//            unbindService(Scon);
-//            mIsBound = false;
-//        }
-//    }
 
     protected void setToFullScreen(){
         requestWindowFeature(Window.FEATURE_NO_TITLE);

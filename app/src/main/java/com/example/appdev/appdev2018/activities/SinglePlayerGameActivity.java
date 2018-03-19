@@ -42,7 +42,7 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
 
             //Todo: This should be dynamic and not hardcoded
             Bundle bundle = new Bundle();
-            bundle.putString("correct_answer","hayaan*mo*sila");
+            bundle.putString("correct_answer","humble");
 
             // Random fragment generator
 

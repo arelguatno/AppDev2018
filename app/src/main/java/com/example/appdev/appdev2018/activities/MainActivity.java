@@ -47,12 +47,6 @@ public class MainActivity extends BaseActivity {
         setToFullScreen();
         setContentView(R.layout.activity_main);
 
-//        doBindService();
-//
-//        // Start Music Service
-//        Intent music = new Intent();
-//        music.setClass(this, MusicService.class);
-//        startService(music);
 
         bgMusic = MediaPlayer.create(this, R.raw.beat_fever);
 
