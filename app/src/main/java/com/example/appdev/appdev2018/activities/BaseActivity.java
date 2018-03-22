@@ -6,18 +6,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 /**
  * Created by aguatno on 3/11/18.
  */
 
 public class BaseActivity extends AppCompatActivity {
     public ProgressDialog mProgressDialog;
-    protected  static MediaPlayer bgMusic;
+
+    protected static MediaPlayer bgMusic;
     private int bgMusicLength = 0;
     static boolean iBgMusicsPlaying = false;
 
+    protected FirebaseFirestore db;
+    protected FirebaseAuth mAuth;
 
-    protected void setToFullScreen(){
+    static final String DB_LAST_LOGIN_FIELD = "lastLogin";
+    static final String DB_USERS_COLLECTION_NAME = "users";
+
+    protected void setToFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);

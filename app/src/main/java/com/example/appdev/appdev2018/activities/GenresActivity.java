@@ -27,7 +27,7 @@ public class GenresActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_genres);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
 
         albumList = new ArrayList<>();
         adapter = new AlbumsAdapter(this, albumList);
@@ -39,6 +39,7 @@ public class GenresActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
 
         prepareAlbums();
+
     }
 
     /**

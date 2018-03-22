@@ -29,12 +29,15 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
         setToFullScreen();
         setContentView(R.layout.activity_single_player_game);
 
+
         //Todo: Hardcoded for now, but need a song ID to connect DB and raw folder
         int resID = R.raw.humble;
         mp = MediaPlayer.create(this, resID);
         progressBarCircle = findViewById(R.id.progress_bar_circle);
+
         progressBarCircle.setMax(mp.getDuration());
         progressBarCircle.setProgress(mp.getDuration());
+
         bgPauseMusic();
 
         // Check that the activity is using the layout version with
@@ -55,33 +58,35 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
             bundle.putString("correct_answer","humble");
 
             // Random fragment generator
-
-            int getRandNum = (int) ((Math.random() * 2) + 1);
-//             1 = 4 buttons
-//             2 = blank fields
-
-            if(getRandNum == 1){
-                Single_player_4_buttons firstFragment = new Single_player_4_buttons();
-                firstFragment.setArguments(bundle);
-
-                // Add the fragment to the 'fragment_container' FrameLayout
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, firstFragment).commit();
-
-            }else{
-                Single_player_blank_fields firstFragment = new Single_player_blank_fields();
-                firstFragment.setArguments(bundle);
-
-                // Add the fragment to the 'fragment_container' FrameLayout
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, firstFragment).commit();
-            }
-
-
+            randomFragmentGenerator (bundle);
         }
     }
 
-    public void start_button(View v){
+    private void randomFragmentGenerator(Bundle bundle){
+//        1 = 4 buttons
+//        2 = blank fields
+        int getRandNum = (int) ((Math.random() * 2) + 1);
+
+        if(getRandNum == 1){
+            Single_player_4_buttons firstFragment = new Single_player_4_buttons();
+            firstFragment.setArguments(bundle);
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, firstFragment).commit();
+
+        }else{
+            Single_player_blank_fields firstFragment = new Single_player_blank_fields();
+            firstFragment.setArguments(bundle);
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, firstFragment).commit();
+        }
+
+    }
+
+    public void start_playing_music_button(View v){
         if(!mp.isPlaying()){
             mp.start();
 

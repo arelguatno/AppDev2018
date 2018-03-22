@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_downloaded"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.MainActivity"
+            android:configChanges = "orientation"
+            android:screenOrientation = "portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,11 +29,15 @@
         <activity
             android:name=".activities.GenresActivity"
             android:label="@string/title_activity_genres"
-            android:parentActivityName=".activities.MainActivity" />
+            android:parentActivityName=".activities.MainActivity"
+            android:configChanges = "orientation"
+            android:screenOrientation = "portrait"/>
 
         <activity android:name=".activities.SinglePlayerGameActivity"
             android:label="@string/title_activity_single_player_activity"
-            android:parentActivityName=".activities.GenresActivity" ></activity>
+            android:parentActivityName=".activities.GenresActivity"
+            android:configChanges = "orientation"
+            android:screenOrientation = "portrait"></activity>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.appdev.appdev2018.R;
+import com.example.appdev.appdev2018.pojos.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -25,19 +26,32 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
-    private FirebaseAuth mAuth;
     private CallbackManager mCallbackManager;
+    static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +80,7 @@ public class MainActivity extends BaseActivity {
         }
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         // [START initialize_fblogin]
         // Initialize Facebook Login button
@@ -106,6 +121,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
     }
 
     public void play_button(View view) {
@@ -124,7 +141,7 @@ public class MainActivity extends BaseActivity {
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-
+            updateDBUserLastLogin(user);
             findViewById(R.id.signInButton).setVisibility(View.GONE);
             findViewById(R.id.button_facebook_login).setVisibility(View.GONE);
             findViewById(R.id.imageView).setVisibility(View.VISIBLE);
@@ -213,7 +230,9 @@ public class MainActivity extends BaseActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            saveUserInfotoDB(user, task);
                             updateUI(user);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -227,5 +246,31 @@ public class MainActivity extends BaseActivity {
                         // [END_EXCLUDE]
                     }
                 });
+    }
+
+
+    private void updateDBUserLastLogin(FirebaseUser user) {
+        db.collection(DB_USERS_COLLECTION_NAME)
+                .document(user.getUid())
+                .update(DB_LAST_LOGIN_FIELD, new Date());
+    }
+
+    private void saveUserInfotoDB(FirebaseUser user, Task<AuthResult> task) {
+        // Save user to Firestore
+        if (task.getResult().getAdditionalUserInfo().isNewUser()) {
+            User user1 = new User(user.getDisplayName(),
+                    user.getEmail(),
+                    user.getPhotoUrl().toString(),
+                    user.getProviderId(),
+                    user.getUid(),
+                    new Date(),
+                    new Date());
+
+            db.collection(DB_USERS_COLLECTION_NAME)
+                    .document(user.getUid()).set(user1);
+
+        } else {
+            updateDBUserLastLogin(user);
+        }
     }
 }
