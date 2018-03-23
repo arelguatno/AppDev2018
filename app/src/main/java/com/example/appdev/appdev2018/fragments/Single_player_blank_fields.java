@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.appdev.appdev2018.R;
+import com.example.appdev.appdev2018.activities.BaseActivity;
 import com.example.appdev.appdev2018.interfaces.Single_player_blank_fields_ViewEvents;
 
 import java.util.Arrays;
@@ -93,7 +94,7 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
         String extraSpace = "&#160;";
 
         for (int x = 0; x < correctAnswer.length(); x++) {
-            if (String.valueOf(correctAnswer.charAt(x)).equalsIgnoreCase("*")) {
+            if (String.valueOf(correctAnswer.charAt(x)).equalsIgnoreCase(BaseActivity.SONGS_SPACE)) {
                 new_word = new_word + extraSpace + extraSpace;
             } else {
                 new_word = new_word + "_" + extraSpace;
@@ -122,7 +123,7 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
 
         // Populate correct answer first
 
-        String newanswerText = answerText.replace("*","");
+        String newanswerText = answerText.replace(BaseActivity.SONGS_SPACE,"");
         for (int x = 0; x < newanswerText.length(); x++) {
             btn = v.findViewById(listOfButtons[shuffleButtons[x]]);
             btn.setText(String.valueOf(newanswerText.charAt(x)));

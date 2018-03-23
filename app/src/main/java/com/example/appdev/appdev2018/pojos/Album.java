@@ -8,14 +8,16 @@ public class Album {
     private String name;
     private int numOfSongs;
     private int thumbnail;
+    private String songID;
 
     public Album() {
     }
 
-    public Album(String name, int numOfSongs, int thumbnail) {
+    public Album(String name, int numOfSongs, int thumbnail, String songID) {
         this.name = name;
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
+        this.songID = songID;
     }
 
     public String getName() {
@@ -36,6 +38,10 @@ public class Album {
 
     public int getThumbnail() {
         return thumbnail;
+    }
+
+    public String getSongID() {
+        return songID;
     }
 
     public void setThumbnail(int thumbnail) {

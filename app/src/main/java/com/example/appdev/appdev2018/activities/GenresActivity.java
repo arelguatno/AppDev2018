@@ -3,15 +3,22 @@ package com.example.appdev.appdev2018.activities;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
 import com.example.appdev.appdev2018.R;
 import com.example.appdev.appdev2018.adapters.AlbumsAdapter;
 import com.example.appdev.appdev2018.pojos.Album;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +28,7 @@ public class GenresActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private AlbumsAdapter adapter;
     private List<Album> albumList;
+    private static final String TAG = "GenresActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,8 @@ public class GenresActivity extends BaseActivity {
 
         albumList = new ArrayList<>();
         adapter = new AlbumsAdapter(this, albumList);
+        db = FirebaseFirestore.getInstance();
+
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -46,41 +56,63 @@ public class GenresActivity extends BaseActivity {
      * Adding few albums for testing
      */
     private void prepareAlbums() {
-        int[] covers = new int[]{
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background};
+        // Fetch records
 
-        Album a = new Album("OPM", 13, covers[0]);
-        albumList.add(a);
+//        final int[] covers = new int[]{
+//                R.drawable.ic_launcher_background,
+//                R.drawable.ic_launcher_background,
+//                R.drawable.ic_launcher_background,
+//                R.drawable.ic_launcher_background,
+//                R.drawable.ic_launcher_background,
+//                R.drawable.ic_launcher_background,
+//                R.drawable.ic_launcher_background,
+//                R.drawable.ic_launcher_background};
 
-        a = new Album("POP", 8, covers[1]);
-        albumList.add(a);
+        db.collection(DB_list_of_genres)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("arel", String.valueOf(R.drawable.ic_launcher_background));
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("arel", document.getString("name"));
+                                Album a = new Album(document.getString("name"), document.getLong("number of songs").intValue(), Integer.valueOf(document.getString("thumbnailID")),document.getId());
+                                albumList.add(a);
+                            }
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
-        a = new Album("ROMANCE", 11, covers[2]);
-        albumList.add(a);
 
-        a = new Album("PARTY", 12, covers[3]);
-        albumList.add(a);
+//        Album a = new Album("OPM", 13, covers[0]);
+//        albumList.add(a);
+//
+//        a = new Album("POP", 8, covers[1]);
+//        albumList.add(a);
+//
+//        a = new Album("ROMANCE", 11, covers[2]);
+//        albumList.add(a);
+//
+//        a = new Album("PARTY", 12, covers[3]);
+//        albumList.add(a);
+//
+//        a = new Album("R&B", 14, covers[4]);
+//        albumList.add(a);
+//
+//        a = new Album("HIP HOP", 1, covers[5]);
+//        albumList.add(a);
+//
+//        a = new Album("KPOP", 11, covers[6]);
+//        albumList.add(a);
+//
+//        a = new Album("ROCK", 14, covers[7]);
+//        albumList.add(a);
 
-        a = new Album("R&B", 14, covers[4]);
-        albumList.add(a);
 
-        a = new Album("HIP HOP", 1, covers[5]);
-        albumList.add(a);
-
-        a = new Album("KPOP", 11, covers[6]);
-        albumList.add(a);
-
-        a = new Album("ROCK", 14, covers[7]);
-        albumList.add(a);
-
-        adapter.notifyDataSetChanged();
     }
 
     /**

@@ -5,13 +5,10 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -26,8 +23,6 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -37,14 +32,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class MainActivity extends BaseActivity {
@@ -111,6 +100,22 @@ public class MainActivity extends BaseActivity {
             }
         });
         // [END initialize_fblogin]
+
+        DocumentReference ref = FirebaseFirestore.getInstance().document("list of songs/genres");
+
+//        ref.getParent().addSnapshotListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                        Log.d(TAG, document.getId() + " => " + document.getData());
+//                    }
+//                } else {
+//                    Log.d(TAG, "Error getting documents: ", task.getException());
+//                }
+//
+//            }
+//        });
     }
 
     @Override
@@ -213,6 +218,7 @@ public class MainActivity extends BaseActivity {
         // Pass the activity result back to the Facebook SDK
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
 
     // [START auth_with_facebook]
     private void handleFacebookAccessToken(AccessToken token) {

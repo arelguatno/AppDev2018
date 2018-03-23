@@ -22,9 +22,15 @@ public class BaseActivity extends AppCompatActivity {
 
     protected FirebaseFirestore db;
     protected FirebaseAuth mAuth;
+    public static final String SONGS_SPACE = "_";
 
     static final String DB_LAST_LOGIN_FIELD = "lastLogin";
     static final String DB_USERS_COLLECTION_NAME = "users";
+    static final String DB_LIST_OF_SONG = "list of songs";
+    static final String DB_GENRES = "genres";
+    static final String DB_POP = "pop";
+    static final String DB_list_of_genres = "list of genres";
+
 
     protected void setToFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);

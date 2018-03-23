@@ -2,7 +2,6 @@ package com.example.appdev.appdev2018.activities;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -31,7 +30,8 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
 
 
         //Todo: Hardcoded for now, but need a song ID to connect DB and raw folder
-        int resID = R.raw.humble;
+        int resID = R.raw.pop1_congratulations;
+
         mp = MediaPlayer.create(this, resID);
         progressBarCircle = findViewById(R.id.progress_bar_circle);
 
@@ -55,7 +55,7 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
 
             //Todo: This should be dynamic and not hardcoded
             Bundle bundle = new Bundle();
-            bundle.putString("correct_answer","humble");
+            bundle.putString("correct_answer","congratulations");
 
             // Random fragment generator
             randomFragmentGenerator (bundle);

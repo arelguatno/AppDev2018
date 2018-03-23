@@ -2,6 +2,7 @@ package com.example.appdev.appdev2018.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,7 +30,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     private List<Album> albumList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, count;
+        public TextView title, count,songID;
         public ImageView thumbnail;
 
         public MyViewHolder(View view) {
@@ -37,13 +38,17 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             title = (TextView) view.findViewById(R.id.title);
             count = (TextView) view.findViewById(R.id.count);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
+            songID = (TextView) view.findViewById(R.id.song_ID);
 
             thumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(mContext, title.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, songID.getText().toString(), Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(view.getContext(), SinglePlayerGameActivity.class);
+                    Bundle mBundle = new Bundle();
+                    mBundle.putString("songID", songID.getText().toString());
+                    intent.putExtras(mBundle);
                     view.getContext().startActivity(intent);
                 }
             });
@@ -72,6 +77,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
         // loading album cover using Glide library
         Glide.with(mContext).load(album.getThumbnail()).into(holder.thumbnail);
+        holder.songID.setText(album.getSongID());
     }
 
     /**
