@@ -1,6 +1,7 @@
 package com.example.appdev.appdev2018.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
@@ -79,6 +80,14 @@ public class BaseActivity extends AppCompatActivity {
         bgMusic.stop();
         bgMusic.release();
         bgMusic = null;
+    }
+
+    public static int getImageIdByName(Context c, String ImageName) {
+        return c.getResources().getIdentifier(ImageName, "drawable", c.getPackageName());
+    }
+
+    public static int getSongIdByName(Context c, String ImageName) {
+        return c.getResources().getIdentifier(ImageName, "raw", c.getPackageName());
     }
 
 }

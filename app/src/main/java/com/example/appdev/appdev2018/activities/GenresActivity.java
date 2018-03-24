@@ -77,7 +77,7 @@ public class GenresActivity extends BaseActivity {
                             Log.d("arel", String.valueOf(R.drawable.ic_launcher_background));
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("arel", document.getString("name"));
-                                Album a = new Album(document.getString("name"), document.getLong("number of songs").intValue(), Integer.valueOf(document.getString("thumbnailID")),document.getId());
+                                Album a = new Album(document.getString("name"), document.getLong("number of songs").intValue(), getImageIdByName(getApplicationContext(),document.getString("thumbnailID")),document.getId());
                                 albumList.add(a);
                             }
                             adapter.notifyDataSetChanged();

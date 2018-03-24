@@ -3,8 +3,10 @@ package com.example.appdev.appdev2018.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +20,13 @@ import com.bumptech.glide.Glide;
 import com.example.appdev.appdev2018.R;
 import com.example.appdev.appdev2018.activities.SinglePlayerGameActivity;
 import com.example.appdev.appdev2018.pojos.Album;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
@@ -28,9 +37,12 @@ import java.util.List;
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHolder> {
     private Context mContext;
     private List<Album> albumList;
+    static int totalSongs = 0;
+    private static final String TAG = "AlbumsAdapter";
+    FirebaseFirestore db;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, count,songID;
+        public TextView title, count, songID;
         public ImageView thumbnail;
 
         public MyViewHolder(View view) {
@@ -42,14 +54,58 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
             thumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    Toast.makeText(mContext, songID.getText().toString(), Toast.LENGTH_SHORT).show();
+                public void onClick(final View view) {
+                    // Generate Random songs
+                    final String queryLink = "list of songs/genres/" + songID.getText().toString();
+                    // Get total songs
+                    db = FirebaseFirestore.getInstance();
+                    db.collection(queryLink).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                totalSongs = task.getResult().size();
 
-                    Intent intent = new Intent(view.getContext(), SinglePlayerGameActivity.class);
-                    Bundle mBundle = new Bundle();
-                    mBundle.putString("songID", songID.getText().toString());
-                    intent.putExtras(mBundle);
-                    view.getContext().startActivity(intent);
+                                // Random total numbers of song
+                                int randomIndex = (int) Math.floor(Math.random() * totalSongs) + 1;
+
+                                // Start query using the songNumber
+                                CollectionReference citiesRef = db.collection(queryLink);
+                                Query query = citiesRef.whereEqualTo("songNumber", randomIndex);
+
+                                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            if (task.getResult().size() == 1) {
+                                                // We only need 1 result otherwise throw a warning to fix Firestore songNumber
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                                    Intent intent = new Intent(view.getContext(), SinglePlayerGameActivity.class);
+                                                    Bundle mBundle = new Bundle();
+
+                                                    mBundle.putString("songID", document.getString("songID"));
+                                                    mBundle.putString("answerCode", document.getString("answerCode"));
+                                                    mBundle.putString("songTitle", document.getString("title"));
+
+                                                    intent.putExtras(mBundle);
+                                                    view.getContext().startActivity(intent);
+                                                }
+                                            } else {
+                                                Log.d(TAG, "Fix songNumber, there might be duplicate number ", task.getException());
+                                            }
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                            }
+
+                                        } else {
+                                            Log.d(TAG, "Error getting documents: ", task.getException());
+                                        }
+                                    }
+                                });
+
+                            }
+                        }
+                    });
                 }
             });
         }

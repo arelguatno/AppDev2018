@@ -72,7 +72,9 @@ public class Single_player_4_buttons extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_single_player_4_buttons, container, false);
         String strtext = getArguments().getString("correct_answer");
-        loadTextButtons(v,strtext);
+        String songTitle = getArguments().getString("answerTitle");
+
+        loadTextButtons(v,songTitle);
 
         Button btn1 = v.findViewById(R.id.s_button1);
         btn1.setOnClickListener(new View.OnClickListener() {
