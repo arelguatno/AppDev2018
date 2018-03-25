@@ -145,7 +145,9 @@ public class Single_player_4_buttons extends Fragment {
         for (int x = 0; x < listOfButtons.length; x++){
             btn = v.findViewById(listOfButtons[x]);
             if(btn.getText().toString() == ""){
-                btn.setText("Generated Text");
+                int getRand = (int) ((Math.random() * SongsForFillup.length));
+                btn.setText(SongsForFillup[getRand].toString());
+
             }
         }
 
@@ -189,4 +191,74 @@ public class Single_player_4_buttons extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    String SongsForFillup[] = {"Psycho",
+            "Look Alive",
+            "Meant To Be",
+            "Never Be The Same",
+            "Pray For Me",
+            "Let You Down",
+            "The Middle",
+            "Mine",
+            "All The Starts",
+            "Lights Down Low",
+            "Whatever It Takes",
+            "Gods Plan",
+            "Perfect",
+            "Friends",
+            "Top Off",
+            "Ric Flair Drip",
+            "Powerglide",
+            "Say Something",
+            "Finesse",
+            "Wait",
+            "Kings Dead",
+            "Him&I",
+            "New Rules",
+            "New Freezer",
+            "Lemon",
+            "Stir Fry",
+            "Sit Next To Me",
+            "X",
+            "Feel It Still",
+            "Plain Jane",
+            "Sativa",
+            "No Roots",
+            "Freak Friday",
+            "Sugar",
+            "IDGAF",
+            "Bood Up",
+            "You Make It Easy",
+            "Sky Walker",
+            "Hurtin Me",
+            "Booty",
+            "At The Club",
+            "Good Old Days",
+            "Havana",
+            "Everyday",
+            "Get You",
+            "Love",
+            "No Excuses",
+            "When We",
+            "How Long",
+            "No Limit",
+            "Icy Grl",
+            "I Live Me Better",
+            "Bad At Love",
+            "Wolves",
+            "Rockstar",
+            "Heaven",
+            "Pick It Up",
+            "Tell Me You Love Me",
+            "So Good",
+            "Bartier Cardi",
+            "Hardaway",
+            "Plug Walk",
+            "Sad",
+            "Makeba",
+            "Love Lies",
+            "Most People Are Good",
+            "Beautifull Trauma",
+            "Delicate",
+            "Crew"};
 }

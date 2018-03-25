@@ -33,12 +33,13 @@ public class GenresActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setToFullScreen();
         setContentView(R.layout.activity_genres);
 
         recyclerView = findViewById(R.id.recycler_view);
 
         albumList = new ArrayList<>();
-        adapter = new AlbumsAdapter(getApplicationContext(), albumList);
+        adapter = new AlbumsAdapter(getApplicationContext(), albumList, GenresActivity.this);
         db = FirebaseFirestore.getInstance();
 
 
@@ -67,8 +68,8 @@ public class GenresActivity extends BaseActivity {
 //                R.drawable.ic_launcher_background,
 //                R.drawable.ic_launcher_background,
 //                R.drawable.ic_launcher_background};
-        showProgressDialog("Preparing list..");
-        db.collection(DB_list_of_genres)
+       showProgressDialog("Preparing...");
+        db.collection(DB_LIST_OF_GENRES)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

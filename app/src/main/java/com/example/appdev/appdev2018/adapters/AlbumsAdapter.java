@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.appdev.appdev2018.R;
 import com.example.appdev.appdev2018.activities.BaseActivity;
+import com.example.appdev.appdev2018.activities.GenresActivity;
 import com.example.appdev.appdev2018.activities.SinglePlayerGameActivity;
 import com.example.appdev.appdev2018.pojos.Album;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,6 +37,7 @@ import java.util.List;
  */
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHolder> {
+    private final GenresActivity genresActivity;
     private Context mContext;
     private List<Album> albumList;
     static int totalSongs = 0;
@@ -56,6 +58,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             thumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
+                    genresActivity.showProgressDialog("...");
                     // Generate Random songs
                     final String queryLink = "list of songs/genres/" + songID.getText().toString();
                     // Get total songs
@@ -89,21 +92,23 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                                                     mBundle.putString("songTitle", document.getString("title"));
 
                                                     intent.putExtras(mBundle);
+                                                    genresActivity.hideProgressDialog();
                                                     view.getContext().startActivity(intent);
                                                 }
                                             } else {
+                                                genresActivity.hideProgressDialog();
                                                 Log.d(TAG, "Fix songNumber, there might be duplicate number ", task.getException());
-                                            }
-                                            for (QueryDocumentSnapshot document : task.getResult()) {
-
                                             }
 
                                         } else {
+                                            genresActivity.hideProgressDialog();
                                             Log.d(TAG, "Error getting documents: ", task.getException());
                                         }
                                     }
                                 });
 
+                            }else{
+                                genresActivity.hideProgressDialog();
                             }
                         }
                     });
@@ -112,9 +117,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         }
     }
 
-    public AlbumsAdapter(Context mContext, List<Album> albumList) {
+    public AlbumsAdapter(Context mContext, List<Album> albumList, GenresActivity genresActivity) {
         this.mContext = mContext;
         this.albumList = albumList;
+        this.genresActivity = genresActivity;
     }
 
     @Override

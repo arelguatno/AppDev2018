@@ -108,7 +108,7 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
             String str = String.valueOf(black_text_filed.getText().toString().charAt(x));
 
             if (isAlpha(str)) {
-                myNameChars[x] = BaseActivity.SONGS_SPACE.charAt(0);
+                myNameChars[x] = BaseActivity.SONG_SPACE.charAt(0);
                 black_text_filed.setText(String.valueOf(myNameChars));
 
                 // Enable button
@@ -119,6 +119,11 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
                         btn.setEnabled(true);
                     }
                 }
+
+                if(x ==0 ){
+                    clearButton.setVisibility(View.GONE);
+                }
+
                 return;
             }
         }
@@ -133,7 +138,7 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
         String extraSpace = "&#160;";
 
         for (int x = 0; x < correctAnswer.length(); x++) {
-            if (String.valueOf(correctAnswer.charAt(x)).equalsIgnoreCase(BaseActivity.SONGS_SPACE)) {
+            if (String.valueOf(correctAnswer.charAt(x)).equalsIgnoreCase(BaseActivity.SONG_SPACE)) {
                 new_word = new_word + extraSpace + extraSpace;
             } else {
                 new_word = new_word + "_" + extraSpace;
@@ -162,7 +167,7 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
 
         // Populate correct answer first
 
-        String newanswerText = answerText.replace(BaseActivity.SONGS_SPACE, "");
+        String newanswerText = answerText.replace(BaseActivity.SONG_SPACE, "");
         for (int x = 0; x < newanswerText.length(); x++) {
             btn = v.findViewById(listOfButtons[shuffleButtons[x]]);
             btn.setText(String.valueOf(newanswerText.charAt(x)));
@@ -205,6 +210,7 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
     @Override
     public void onClick(View view) {
         if (view instanceof Button) {
+            clearButton.setVisibility(View.VISIBLE);
             for (int i = 0; i < listOfButtons.length; i++) {
                 if (view.getId() == listOfButtons[i]) {
                     btn = view.findViewById(listOfButtons[i]);
@@ -218,7 +224,7 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
 
     private void checkIfAnswerIsCorrect() {
         String currentAnswer = black_text_filed.getText().toString().replaceAll("\\s", "");
-        String correctAnswer = this.strtext.replaceAll(BaseActivity.SONGS_SPACE, "");
+        String correctAnswer = this.strtext.replaceAll(BaseActivity.SONG_SPACE, "");
 
         if(currentAnswer.equalsIgnoreCase(correctAnswer)){
             viewClicked.fieldText_anyButtonPress(true);

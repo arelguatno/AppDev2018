@@ -19,7 +19,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class SinglePlayerGameActivity extends BaseActivity implements Single_Player_4_buttons_ViewEvents, Single_player_blank_fields_ViewEvents {
-    static MediaPlayer mp;
+    MediaPlayer mp;
     ProgressBar progressBarCircle;
     private static final String TAG = "SinglePlayerGame";
 
@@ -29,8 +29,6 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
         setToFullScreen();
         setContentView(R.layout.activity_single_player_game);
         db = FirebaseFirestore.getInstance();
-
-//        typeOfGenre = getIntent().getExtras().getString("typeOfGenre");
 
         String songIdString = getIntent().getExtras().getString("songID");
         String answerCode = getIntent().getExtras().getString("answerCode");
@@ -65,8 +63,8 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
     private void randomFragmentGenerator(Bundle bundle) {
 //        1 = 4 buttons
 //        2 = blank fields
-//        int getRandNum = (int) ((Math.random() * 2) + 1);
-        int getRandNum = 2;
+        int getRandNum = (int) ((Math.random() * 2) + 1);
+//        int getRandNum = 2;
 
         if (getRandNum == 1) {
             Single_player_4_buttons firstFragment = new Single_player_4_buttons();
