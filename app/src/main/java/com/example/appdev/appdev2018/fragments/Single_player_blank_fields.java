@@ -5,10 +5,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.appdev.appdev2018.R;
@@ -37,12 +39,15 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
     private String mParam2;
     private Button btn;
     private TextView black_text_filed;
+    private ImageButton clearButton;
+
 
     private OnFragmentInteractionListener mListener;
     private Single_player_blank_fields_ViewEvents viewClicked;
     private int listOfButtons[] = {R.id.s_4_btn1, R.id.s_4_btn2, R.id.s_4_btn3, R.id.s_4_btn4, R.id.s_4_btn5,
             R.id.s_4_btn6, R.id.s_4_btn7, R.id.s_4_btn8, R.id.s_4_btn9, R.id.s_4_btn10,
             R.id.s_4_btn11, R.id.s_4_btn12, R.id.s_4_btn13, R.id.s_4_btn14, R.id.s_4_btn15,};
+    private String strtext;
 
     public Single_player_blank_fields() {
         // Required empty public constructor
@@ -79,14 +84,48 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_single_player_blank_fields, container, false);
-        String strtext = getArguments().getString("correct_answer");
+        final View view = inflater.inflate(R.layout.fragment_single_player_blank_fields, container, false);
+        strtext = getArguments().getString("correct_answer");
         black_text_filed = view.findViewById(R.id.black_text_filed);
+        clearButton = view.findViewById(R.id.clearButton);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view2) {
+                clearTextField(view);
+            }
+        });
+
         convertAnswerToUnderLine(view, strtext);
 
         loadButtons(view, strtext);
 
         return view;
+    }
+
+    private void clearTextField(View v) {
+        char[] myNameChars = black_text_filed.getText().toString().toCharArray();
+        for (int x = black_text_filed.getText().toString().length() - 1; x >= 0; x--) {
+            String str = String.valueOf(black_text_filed.getText().toString().charAt(x));
+
+            if (isAlpha(str)) {
+                myNameChars[x] = BaseActivity.SONGS_SPACE.charAt(0);
+                black_text_filed.setText(String.valueOf(myNameChars));
+
+                // Enable button
+                //Fill out buttons without text
+                for (int i = 0; i < listOfButtons.length; i++) {
+                    btn = v.findViewById(listOfButtons[i]);
+                    if (btn.getText().toString().equalsIgnoreCase(str)) {
+                        btn.setEnabled(true);
+                    }
+                }
+                return;
+            }
+        }
+    }
+
+    public boolean isAlpha(String name) {
+        return name.matches("[a-zA-Z]+");
     }
 
     private void convertAnswerToUnderLine(View v, String correctAnswer) {
@@ -123,7 +162,7 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
 
         // Populate correct answer first
 
-        String newanswerText = answerText.replace(BaseActivity.SONGS_SPACE,"");
+        String newanswerText = answerText.replace(BaseActivity.SONGS_SPACE, "");
         for (int x = 0; x < newanswerText.length(); x++) {
             btn = v.findViewById(listOfButtons[shuffleButtons[x]]);
             btn.setText(String.valueOf(newanswerText.charAt(x)));
@@ -171,16 +210,27 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
                     btn = view.findViewById(listOfButtons[i]);
                     boolean isGood = sendTextToLabel((String) btn.getText());
                     btn.setEnabled(isGood);
-                    //checkIfAnsweIsCorrect();
+                    checkIfAnswerIsCorrect();
                 }
             }
         }
     }
 
+    private void checkIfAnswerIsCorrect() {
+        String currentAnswer = black_text_filed.getText().toString().replaceAll("\\s", "");
+        String correctAnswer = this.strtext.replaceAll(BaseActivity.SONGS_SPACE, "");
+
+        if(currentAnswer.equalsIgnoreCase(correctAnswer)){
+            viewClicked.fieldText_anyButtonPress(true);
+        }else{
+            viewClicked.fieldText_anyButtonPress(false);
+        }
+    }
+
     private boolean sendTextToLabel(String text) {
         StringBuilder answerText = new StringBuilder(black_text_filed.getText());
-        for (int i = 0; i <= black_text_filed.getText().toString().length() -1; i++) {
-            if ((i+1) % 2 != 0 && answerText.charAt(i) == '_') {
+        for (int i = 0; i <= black_text_filed.getText().toString().length() - 1; i++) {
+            if ((i + 1) % 2 != 0 && answerText.charAt(i) == '_') {
                 answerText.setCharAt(i, text.charAt(0));
                 black_text_filed.setText("");
                 black_text_filed.setText(answerText.toString().toUpperCase());

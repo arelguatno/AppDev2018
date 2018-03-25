@@ -33,6 +33,7 @@ public class Single_player_4_buttons extends Fragment {
     private OnFragmentInteractionListener mListener;
     private Single_Player_4_buttons_ViewEvents viewClicked;
     private int listOfButtons[] = {R.id.s_button1, R.id.s_button2, R.id.s_button3, R.id.s_button4};
+    private int whereIsCorrectAnswer = 0;
 
     public Single_player_4_buttons() {
         // Required empty public constructor
@@ -80,7 +81,7 @@ public class Single_player_4_buttons extends Fragment {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewClicked.onFragmentSButton1Clicked();
+                viewClicked.onFragmentSButton1Clicked(whereIsCorrectAnswer);
             }
         });
 
@@ -88,7 +89,7 @@ public class Single_player_4_buttons extends Fragment {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewClicked.onFragmentSButton2Clicked();
+                viewClicked.onFragmentSButton2Clicked(whereIsCorrectAnswer);
             }
         });
 
@@ -96,7 +97,7 @@ public class Single_player_4_buttons extends Fragment {
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewClicked.onFragmentSButton3Clicked();
+                viewClicked.onFragmentSButton3Clicked(whereIsCorrectAnswer);
             }
         });
 
@@ -104,7 +105,7 @@ public class Single_player_4_buttons extends Fragment {
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewClicked.onFragmentSButton4Clicked();
+                viewClicked.onFragmentSButton4Clicked(whereIsCorrectAnswer);
             }
         });
 
@@ -121,6 +122,7 @@ public class Single_player_4_buttons extends Fragment {
         }
 
         int getRandPos = (int) ((Math.random() * 4) + 1);
+        whereIsCorrectAnswer = getRandPos;
         switch (getRandPos){
             case 1:
                 btn = v.findViewById(listOfButtons[0]);

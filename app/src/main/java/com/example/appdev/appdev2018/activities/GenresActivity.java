@@ -38,7 +38,7 @@ public class GenresActivity extends BaseActivity {
         recyclerView = findViewById(R.id.recycler_view);
 
         albumList = new ArrayList<>();
-        adapter = new AlbumsAdapter(this, albumList);
+        adapter = new AlbumsAdapter(getApplicationContext(), albumList);
         db = FirebaseFirestore.getInstance();
 
 
@@ -67,7 +67,7 @@ public class GenresActivity extends BaseActivity {
 //                R.drawable.ic_launcher_background,
 //                R.drawable.ic_launcher_background,
 //                R.drawable.ic_launcher_background};
-
+        showProgressDialog("Preparing list..");
         db.collection(DB_list_of_genres)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -80,7 +80,9 @@ public class GenresActivity extends BaseActivity {
                                 Album a = new Album(document.getString("name"), document.getLong("number of songs").intValue(), getImageIdByName(getApplicationContext(),document.getString("thumbnailID")),document.getId());
                                 albumList.add(a);
                             }
+                            hideProgressDialog();
                             adapter.notifyDataSetChanged();
+
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }

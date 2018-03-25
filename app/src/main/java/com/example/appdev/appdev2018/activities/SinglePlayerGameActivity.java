@@ -2,8 +2,6 @@ package com.example.appdev.appdev2018.activities;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -14,15 +12,7 @@ import com.example.appdev.appdev2018.fragments.Single_player_4_buttons;
 import com.example.appdev.appdev2018.fragments.Single_player_blank_fields;
 import com.example.appdev.appdev2018.interfaces.Single_Player_4_buttons_ViewEvents;
 import com.example.appdev.appdev2018.interfaces.Single_player_blank_fields_ViewEvents;
-import com.example.appdev.appdev2018.pojos.Album;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -75,7 +65,8 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
     private void randomFragmentGenerator(Bundle bundle) {
 //        1 = 4 buttons
 //        2 = blank fields
-        int getRandNum = (int) ((Math.random() * 2) + 1);
+//        int getRandNum = (int) ((Math.random() * 2) + 1);
+        int getRandNum = 2;
 
         if (getRandNum == 1) {
             Single_player_4_buttons firstFragment = new Single_player_4_buttons();
@@ -138,27 +129,52 @@ public class SinglePlayerGameActivity extends BaseActivity implements Single_Pla
     }
 
     @Override
-    public void onFragmentSButton1Clicked() {
-        Toast.makeText(this, "Button1", Toast.LENGTH_SHORT).show();
+    public void onFragmentSButton1Clicked(int correctPosition) {
+        if(correctPosition == 1){
+            // Correct implementation here
+            Toast.makeText(this,"Gotcha",Toast.LENGTH_SHORT).show();
+        }else{
+
+        }
     }
 
     @Override
-    public void onFragmentSButton2Clicked() {
-        Toast.makeText(this, "Button2", Toast.LENGTH_SHORT).show();
+    public void onFragmentSButton2Clicked(int correctPosition) {
+        if(correctPosition == 2){
+            // Correct implementation here
+            Toast.makeText(this,"Gotcha",Toast.LENGTH_SHORT).show();
+        }else{
+
+        }
     }
 
     @Override
-    public void onFragmentSButton3Clicked() {
-        Toast.makeText(this, "Button3", Toast.LENGTH_SHORT).show();
+    public void onFragmentSButton3Clicked(int correctPosition) {
+        if(correctPosition == 3){
+            // Correct implementation here
+            Toast.makeText(this,"Gotcha",Toast.LENGTH_SHORT).show();
+        }else{
+
+        }
     }
 
     @Override
-    public void onFragmentSButton4Clicked() {
-        Toast.makeText(this, "Button4", Toast.LENGTH_SHORT).show();
+    public void onFragmentSButton4Clicked(int correctPosition) {
+        if(correctPosition == 4){
+            // Correct implementation here
+            Toast.makeText(this,"Gotcha",Toast.LENGTH_SHORT).show();
+        }else{
+
+        }
     }
 
     @Override
-    public void fieldText_anyButtonPress(String s) {
+    public void fieldText_anyButtonPress(boolean gotIt) {
+        if(gotIt){
+            // Correct implementation here
+            Toast.makeText(this,"Gotcha",Toast.LENGTH_SHORT).show();
+        }else{
 
+        }
     }
 }

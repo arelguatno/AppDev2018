@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.appdev.appdev2018.R;
+import com.example.appdev.appdev2018.activities.BaseActivity;
 import com.example.appdev.appdev2018.activities.SinglePlayerGameActivity;
 import com.example.appdev.appdev2018.pojos.Album;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,10 +48,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.title);
-            count = (TextView) view.findViewById(R.id.count);
-            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-            songID = (TextView) view.findViewById(R.id.song_ID);
+            title = view.findViewById(R.id.title);
+            count = view.findViewById(R.id.count);
+            thumbnail =  view.findViewById(R.id.thumbnail);
+            songID =  view.findViewById(R.id.song_ID);
 
             thumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -111,7 +112,6 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         }
     }
 
-
     public AlbumsAdapter(Context mContext, List<Album> albumList) {
         this.mContext = mContext;
         this.albumList = albumList;
@@ -135,6 +135,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         Glide.with(mContext).load(album.getThumbnail()).into(holder.thumbnail);
         holder.songID.setText(album.getSongID());
     }
+
 
     /**
      * Showing popup menu when tapping on 3 dots

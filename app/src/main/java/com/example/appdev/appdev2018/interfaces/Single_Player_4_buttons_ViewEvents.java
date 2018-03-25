@@ -5,8 +5,8 @@ package com.example.appdev.appdev2018.interfaces;
  */
 
 public interface Single_Player_4_buttons_ViewEvents {
-    void onFragmentSButton1Clicked();
-    void onFragmentSButton2Clicked();
-    void onFragmentSButton3Clicked();
-    void onFragmentSButton4Clicked();
+    void onFragmentSButton1Clicked(int whereIsCorrectAnswer);
+    void onFragmentSButton2Clicked(int whereIsCorrectAnswer);
+    void onFragmentSButton3Clicked(int whereIsCorrectAnswer);
+    void onFragmentSButton4Clicked(int whereIsCorrectAnswer);
 }
