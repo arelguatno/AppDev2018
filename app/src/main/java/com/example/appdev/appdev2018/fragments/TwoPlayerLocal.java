@@ -19,8 +19,12 @@ import android.widget.ProgressBar;
 import com.example.appdev.appdev2018.R;
 import com.example.appdev.appdev2018.interfaces.Single_Player_4_buttons_ViewEvents;
 import com.example.appdev.appdev2018.interfaces.TwoPlayerLocal_ViewEvents;
+import com.example.appdev.appdev2018.pojos.Album;
+import com.example.appdev.appdev2018.pojos.Song;
 import com.example.appdev.appdev2018.pojos.SongsTitleForFillup;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -40,10 +44,15 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
     private ProgressBar progressBar1, progressBar2;
     private int player1_buttons[] = {R.id.button13, R.id.button14, R.id.button15, R.id.button16};
     private int player2_buttons[] = {R.id.button9, R.id.button10, R.id.button11, R.id.button12};
-    private int whereIsCorrectAnswer = 0;
     private ScheduledExecutorService service;
     SongsTitleForFillup songsTitleForFillup = new SongsTitleForFillup();
     private TwoPlayerLocal_ViewEvents viewClicked;
+
+    private String correctAnswer;
+    private int whereIsCorrectAnswer = 0;
+    static int songChoice = 0;
+    private List<Song> albumSong;
+    private boolean playerChance = false;
 
     public TwoPlayerLocal() {
         // Required empty public constructor
@@ -81,6 +90,7 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_two_player_offline, container, false);
+        albumSong = new ArrayList<>();
 
         player1_linear_row1 = view.findViewById(R.id.player1_linear_row1);
         player1_linear_row2 = view.findViewById(R.id.player1_linear_row2);
@@ -97,7 +107,7 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
         player1_hitme_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
-                player1_hitme_Button(view, "Humble");
+                player1_hitme_Button(view, getCorrectAnswer());
             }
         });
 
@@ -105,7 +115,7 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
         player2_hitme_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
-                player2_hitme_Button(view, "Humble");
+                player2_hitme_Button(view, getCorrectAnswer());
             }
         });
 
@@ -113,14 +123,14 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
         return view;
     }
 
-    private void player1_hitme_Button(View view, String humble) {
+    private void player1_hitme_Button(View view, String answerText) {
         player1_linear_row1.setVisibility(View.VISIBLE);
         player1_linear_row2.setVisibility(View.VISIBLE);
         player2_hitme_Button.setEnabled(false);
 
         player1_hitme_Button.setVisibility(View.GONE);
 
-        loadTextButtons(view, humble, player1_buttons);
+        loadTextButtons(view, answerText, player1_buttons);
 
         service.shutdown();
         mp.stop();
@@ -160,7 +170,18 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
 
                 progressBar2.setMax(mp.getDuration());
                 progressBar2.setProgress(mp.getDuration());
-                play_music();
+
+                if(!playerChance){
+                    songChoice--; // Goto previous music, for other play chance
+                    playerChance = true;
+                    play_music();
+                }else{
+                    // End of chance play new music
+                    player1_hitme_Button.setEnabled(true);
+                    player2_hitme_Button.setEnabled(true);
+                    playerChance = false;
+                    play_music();
+                }
                 return;
             }
 
@@ -223,7 +244,18 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
 
                 progressBar2.setMax(mp.getDuration());
                 progressBar2.setProgress(mp.getDuration());
-                play_music();
+
+                if(!playerChance){
+                    songChoice--; //Goto previous music, for other play chance
+                    playerChance = true;
+                    play_music();
+                }else{
+                    // End of chance play new music
+                    playerChance = false;
+                    player1_hitme_Button.setEnabled(true);
+                    player2_hitme_Button.setEnabled(true);
+                    play_music();
+                }
                 return;
             }
 
@@ -281,7 +313,28 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
     }
 
     private void play_music() {
-        mp = MediaPlayer.create(getContext(), R.raw.pop3_humble);
+
+        Song song = new Song("pop1_congratulations","Congratulations");
+        albumSong.add(song);
+
+        song = new Song("pop2_hayaan_mo_sila","Hayaan Mo Sila");
+        albumSong.add(song);
+
+        song = new Song("pop3_humble","Humble");
+        albumSong.add(song);
+
+        song = new Song("pop4_mask_off","Mask Off");
+        albumSong.add(song);
+
+
+        if ((songChoice+1) == albumSong.size()){
+            // no more music
+            return;
+        }
+
+        mp = MediaPlayer.create(getContext(), getSongIdByName(getContext(), albumSong.get(songChoice).getSongID()));
+        setCorrectAnswer(albumSong.get(songChoice).getSongTitle());
+        ++songChoice; // Increment for the next music
 
         progressBar1.setMax(mp.getDuration());
         progressBar1.setProgress(mp.getDuration());
@@ -297,17 +350,20 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
                 @Override
                 public void onCompletion(MediaPlayer mediaPlayer) {
                     service.shutdown();
+                    playerChance = false;
                     player1_hitme_Button.setEnabled(true);
                     player2_hitme_Button.setEnabled(true);
 
                     progressBar1.setMax(0);
                     progressBar2.setMax(0);
+
+                    //Play next song, if no one hit the button
+                    play_music();
                 }
             });
             service.scheduleWithFixedDelay(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("arel", "dsadsadsasad");
                     progressBar1.setProgress(mp.getDuration() - mp.getCurrentPosition());
                     progressBar2.setProgress(mp.getDuration() - mp.getCurrentPosition());
                 }
@@ -339,5 +395,17 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
     @Override
     public void onback_press() {
 
+    }
+
+    public static int getSongIdByName(Context c, String ImageName) {
+        return c.getResources().getIdentifier(ImageName, "raw", c.getPackageName());
+    }
+
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 }

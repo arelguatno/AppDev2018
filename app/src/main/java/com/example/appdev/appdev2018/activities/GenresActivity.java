@@ -75,9 +75,7 @@ public class GenresActivity extends BaseActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            Log.d("arel", String.valueOf(R.drawable.ic_launcher_background));
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("arel", document.getString("name"));
                                 Album a = new Album(document.getString("name"), document.getLong("number of songs").intValue(), getImageIdByName(getApplicationContext(),document.getString("thumbnailID")),document.getId());
                                 albumList.add(a);
                             }
