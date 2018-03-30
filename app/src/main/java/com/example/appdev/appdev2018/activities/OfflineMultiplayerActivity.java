@@ -1,18 +1,14 @@
 package com.example.appdev.appdev2018.activities;
 
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.appdev.appdev2018.R;
-import com.example.appdev.appdev2018.fragments.Single_player_4_buttons;
-import com.example.appdev.appdev2018.fragments.TwoPlayerOffline;
+import com.example.appdev.appdev2018.fragments.TwoPlayerLocal;
+import com.example.appdev.appdev2018.interfaces.TwoPlayerLocal_ViewEvents;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class OfflineMultiplayerActivity extends BaseActivity implements TwoPlayerOffline.OnFragmentInteractionListener {
+public class OfflineMultiplayerActivity extends BaseActivity implements TwoPlayerLocal_ViewEvents {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +17,7 @@ public class OfflineMultiplayerActivity extends BaseActivity implements TwoPlaye
         db = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_offline_multiplayer);
         bgPauseMusic();
+
         if (findViewById(R.id.fragment_container) != null) {
             // However, if we're being restored from a previous state,
             // then we don't need to do anything and should return or else
@@ -29,7 +26,7 @@ public class OfflineMultiplayerActivity extends BaseActivity implements TwoPlaye
                 return;
             }
 
-            TwoPlayerOffline firstFragment = new TwoPlayerOffline();
+            TwoPlayerLocal firstFragment = new TwoPlayerLocal();
             // firstFragment.setArguments(bundle);
 
             // Add the fragment to the 'fragment_container' FrameLayout
@@ -38,10 +35,6 @@ public class OfflineMultiplayerActivity extends BaseActivity implements TwoPlaye
         }
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
     @Override
     public void onBackPressed() {
@@ -49,4 +42,8 @@ public class OfflineMultiplayerActivity extends BaseActivity implements TwoPlaye
         bgResumeMusic();
     }
 
+    @Override
+    public void onback_press() {
+
+    }
 }

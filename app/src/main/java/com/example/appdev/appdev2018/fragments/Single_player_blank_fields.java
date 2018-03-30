@@ -20,14 +20,7 @@ import com.example.appdev.appdev2018.interfaces.Single_player_blank_fields_ViewE
 import java.util.Arrays;
 import java.util.Collections;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Single_player_blank_fields.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Single_player_blank_fields#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class Single_player_blank_fields extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,8 +34,6 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
     private TextView black_text_filed;
     private ImageButton clearButton;
 
-
-    private OnFragmentInteractionListener mListener;
     private Single_player_blank_fields_ViewEvents viewClicked;
     private int listOfButtons[] = {R.id.s_4_btn1, R.id.s_4_btn2, R.id.s_4_btn3, R.id.s_4_btn4, R.id.s_4_btn5,
             R.id.s_4_btn6, R.id.s_4_btn7, R.id.s_4_btn8, R.id.s_4_btn9, R.id.s_4_btn10,
@@ -185,9 +176,6 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -204,7 +192,6 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -244,20 +231,5 @@ public class Single_player_blank_fields extends Fragment implements View.OnClick
             }
         }
         return true;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }
