@@ -119,6 +119,11 @@ public class MainActivity extends BaseActivity {
         this.startActivity(intent);
     }
 
+    public void play_multiplayer(View v){
+        Intent intent = new Intent(this, OfflineMultiplayerActivity.class);
+        this.startActivity(intent);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
