@@ -29,7 +29,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -120,7 +119,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void play_multiplayer(View v){
-        Intent intent = new Intent(this, OfflineMultiplayerActivity.class);
+        Intent intent = new Intent(this, LocalMultiplayerActivity.class);
         this.startActivity(intent);
     }
 

@@ -7,7 +7,7 @@ import com.example.appdev.appdev2018.fragments.TwoPlayerLocal;
 import com.example.appdev.appdev2018.interfaces.TwoPlayerLocal_ViewEvents;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class OfflineMultiplayerActivity extends BaseActivity implements TwoPlayerLocal_ViewEvents {
+public class LocalMultiplayerActivity extends BaseActivity implements TwoPlayerLocal_ViewEvents {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

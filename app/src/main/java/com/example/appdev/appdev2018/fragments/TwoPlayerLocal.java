@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -18,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.appdev.appdev2018.R;
-import com.example.appdev.appdev2018.activities.OfflineMultiplayerActivity;
+import com.example.appdev.appdev2018.activities.LocalMultiplayerActivity;
 import com.example.appdev.appdev2018.interfaces.TwoPlayerLocal_ViewEvents;
 import com.example.appdev.appdev2018.pojos.Song;
 import com.example.appdev.appdev2018.pojos.SongsTitleForFillup;
@@ -30,21 +29,19 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvents, View.OnClickListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    MediaPlayer mp;
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     private LinearLayout playerA_linear_row1, playerA_linear_row2, playerB_linear_row1, playerB_linear_row2;
     private Button playerA_hitme_Button, playerB_hitme_Button, p1_btn1, p1_btn2, p1_btn3, p1_btn4, p2_btn1, p2_btn2, p2_btn3, p2_btn4;
     private ProgressBar progressBar1, progressBar2;
     private int playerA_buttons[] = {R.id.p1_btn1, R.id.p1_btn2, R.id.p1_btn3, R.id.p1_btn4};
     private int playerB_buttons[] = {R.id.p2_btn1, R.id.p2_btn2, R.id.p2_btn3, R.id.p2_btn4};
     private ScheduledExecutorService service;
+    MediaPlayer mp;
     SongsTitleForFillup songsTitleForFillup = new SongsTitleForFillup();
     private TwoPlayerLocal_ViewEvents viewClicked;
 
@@ -54,7 +51,7 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
     private List<Song> albumSong;
     private boolean playerChance = false;
     private LinearLayout playerB_linearlayout, playerA_linearlayout;
-    private OfflineMultiplayerActivity activityView;
+    private LocalMultiplayerActivity activityView;
     private int playerAScore, playerBScore = 0;
     private ObjectAnimator animation, animation2;
 
@@ -62,15 +59,6 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TwoPlayerLocal.
-     */
-    // TODO: Rename and change types and number of parameters
     public static TwoPlayerLocal newInstance(String param1, String param2) {
         TwoPlayerLocal fragment = new TwoPlayerLocal();
         Bundle args = new Bundle();
@@ -96,7 +84,7 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
         final View view = inflater.inflate(R.layout.fragment_two_player_offline, container, false);
         albumSong = new ArrayList<>();
 
-        activityView = (OfflineMultiplayerActivity) getActivity();
+        activityView = (LocalMultiplayerActivity) getActivity();
 
         playerA_linear_row1 = view.findViewById(R.id.player1_linear_row1);
         playerA_linear_row2 = view.findViewById(R.id.player1_linear_row2);
@@ -439,10 +427,6 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -476,7 +460,7 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
     private void incrementScore(View view, boolean playerA) {
         if (playerA) {
             ++playerAScore;
-            playerA_hitme_Button.setText("Player B \n\n " + playerAScore);
+            playerA_hitme_Button.setText("Player A \n\n " + playerAScore);
             playNextMusic(true);
         } else {
             ++playerBScore;
