@@ -20,6 +20,8 @@ import com.bumptech.glide.Glide;
 import com.example.appdev.appdev2018.R;
 import com.example.appdev.appdev2018.activities.BaseActivity;
 import com.example.appdev.appdev2018.activities.GenresActivity;
+import com.example.appdev.appdev2018.activities.MainActivity;
+import com.example.appdev.appdev2018.activities.OfflineMultiplayerActivity;
 import com.example.appdev.appdev2018.activities.SinglePlayerGameActivity;
 import com.example.appdev.appdev2018.pojos.Album;
 import com.google.android.gms.tasks.OnCompleteListener;

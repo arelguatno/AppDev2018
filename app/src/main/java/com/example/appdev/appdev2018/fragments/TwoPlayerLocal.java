@@ -7,7 +7,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +15,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.appdev.appdev2018.R;
-import com.example.appdev.appdev2018.interfaces.Single_Player_4_buttons_ViewEvents;
+import com.example.appdev.appdev2018.activities.OfflineMultiplayerActivity;
 import com.example.appdev.appdev2018.interfaces.TwoPlayerLocal_ViewEvents;
-import com.example.appdev.appdev2018.pojos.Album;
 import com.example.appdev.appdev2018.pojos.Song;
 import com.example.appdev.appdev2018.pojos.SongsTitleForFillup;
 
@@ -29,7 +29,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvents {
+public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvents, View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,11 +39,11 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private LinearLayout player1_linear_row1, player1_linear_row2, player2_linear_row1, player2_linear_row2;
-    private Button player1_hitme_Button, player2_hitme_Button;
+    private LinearLayout playerA_linear_row1, playerA_linear_row2, playerB_linear_row1, playerB_linear_row2;
+    private Button playerA_hitme_Button, playerB_hitme_Button, p1_btn1, p1_btn2, p1_btn3, p1_btn4, p2_btn1, p2_btn2, p2_btn3, p2_btn4;
     private ProgressBar progressBar1, progressBar2;
-    private int player1_buttons[] = {R.id.button13, R.id.button14, R.id.button15, R.id.button16};
-    private int player2_buttons[] = {R.id.button9, R.id.button10, R.id.button11, R.id.button12};
+    private int playerA_buttons[] = {R.id.p1_btn1, R.id.p1_btn2, R.id.p1_btn3, R.id.p1_btn4};
+    private int playerB_buttons[] = {R.id.p2_btn1, R.id.p2_btn2, R.id.p2_btn3, R.id.p2_btn4};
     private ScheduledExecutorService service;
     SongsTitleForFillup songsTitleForFillup = new SongsTitleForFillup();
     private TwoPlayerLocal_ViewEvents viewClicked;
@@ -53,6 +53,10 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
     static int songChoice = 0;
     private List<Song> albumSong;
     private boolean playerChance = false;
+    private LinearLayout playerB_linearlayout, playerA_linearlayout;
+    private OfflineMultiplayerActivity activityView;
+    private int playerAScore, playerBScore = 0;
+    private ObjectAnimator animation, animation2;
 
     public TwoPlayerLocal() {
         // Required empty public constructor
@@ -92,30 +96,67 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
         final View view = inflater.inflate(R.layout.fragment_two_player_offline, container, false);
         albumSong = new ArrayList<>();
 
-        player1_linear_row1 = view.findViewById(R.id.player1_linear_row1);
-        player1_linear_row2 = view.findViewById(R.id.player1_linear_row2);
+        activityView = (OfflineMultiplayerActivity) getActivity();
 
-        player2_linear_row1 = view.findViewById(R.id.player2_linear_row1);
-        player2_linear_row2 = view.findViewById(R.id.player2_linear_row2);
+        playerA_linear_row1 = view.findViewById(R.id.player1_linear_row1);
+        playerA_linear_row2 = view.findViewById(R.id.player1_linear_row2);
+
+        playerB_linear_row1 = view.findViewById(R.id.player2_linear_row1);
+        playerB_linear_row2 = view.findViewById(R.id.player2_linear_row2);
 
         progressBar1 = view.findViewById(R.id.progress1);
         progressBar2 = view.findViewById(R.id.progress2);
 
+        playerB_linearlayout = view.findViewById(R.id.player2_linearlayout);
+        playerA_linearlayout = view.findViewById(R.id.player1_linearlayout);
+
+        p1_btn1 = view.findViewById(R.id.p1_btn1);
+        p1_btn1.setOnClickListener(this);
+        p1_btn2 = view.findViewById(R.id.p1_btn2);
+        p1_btn2.setOnClickListener(this);
+        p1_btn3 = view.findViewById(R.id.p1_btn3);
+        p1_btn3.setOnClickListener(this);
+        p1_btn4 = view.findViewById(R.id.p1_btn4);
+        p1_btn4.setOnClickListener(this);
+        p2_btn1 = view.findViewById(R.id.p2_btn1);
+        p2_btn1.setOnClickListener(this);
+        p2_btn2 = view.findViewById(R.id.p2_btn2);
+        p2_btn2.setOnClickListener(this);
+        p2_btn3 = view.findViewById(R.id.p2_btn3);
+        p2_btn3.setOnClickListener(this);
+        p2_btn4 = view.findViewById(R.id.p2_btn4);
+        p2_btn4.setOnClickListener(this);
+
+        // Load songs
+
+        albumSong.clear();
+        Song song = new Song("pop1_congratulations", "Congratulations");
+        albumSong.add(song);
+
+        song = new Song("pop2_hayaan_mo_sila", "Hayaan Mo Sila");
+        albumSong.add(song);
+
+        song = new Song("pop3_humble", "Humble");
+        albumSong.add(song);
+
+        song = new Song("pop4_mask_off", "Mask Off");
+        albumSong.add(song);
+
         play_music();
 
-        player1_hitme_Button = view.findViewById(R.id.player1_hitme_Button);
-        player1_hitme_Button.setOnClickListener(new View.OnClickListener() {
+        playerA_hitme_Button = view.findViewById(R.id.player1_hitme_Button);
+        playerA_hitme_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
-                player1_hitme_Button(view, getCorrectAnswer());
+                playerA_hitme_Button(view, getCorrectAnswer());
             }
         });
 
-        player2_hitme_Button = view.findViewById(R.id.player2_hitme_Button);
-        player2_hitme_Button.setOnClickListener(new View.OnClickListener() {
+        playerB_hitme_Button = view.findViewById(R.id.player2_hitme_Button);
+        playerB_hitme_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
-                player2_hitme_Button(view, getCorrectAnswer());
+                playerB_hitme_Button(view, getCorrectAnswer());
             }
         });
 
@@ -123,14 +164,16 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
         return view;
     }
 
-    private void player1_hitme_Button(View view, String answerText) {
-        player1_linear_row1.setVisibility(View.VISIBLE);
-        player1_linear_row2.setVisibility(View.VISIBLE);
-        player2_hitme_Button.setEnabled(false);
+    private void playerA_hitme_Button(View view, String answerText) {
+        playerA_linear_row1.setVisibility(View.VISIBLE);
+        playerA_linear_row2.setVisibility(View.VISIBLE);
+        playerB_hitme_Button.setEnabled(false);
 
-        player1_hitme_Button.setVisibility(View.GONE);
+        playerA_hitme_Button.setVisibility(View.GONE);
 
-        loadTextButtons(view, answerText, player1_buttons);
+        playerA_linearlayout.setGravity(Gravity.CENTER);
+
+        loadTextButtons(view, answerText, playerA_buttons);
 
         service.shutdown();
         mp.stop();
@@ -141,12 +184,12 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
         progressBar2.setMax(100);
         progressBar2.setProgress(100);
 
-        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar1, "progress", 0);
+        animation = ObjectAnimator.ofInt(progressBar1, "progress", 0);
         animation.setDuration(5000); // 5 second
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
 
-        ObjectAnimator animation2 = ObjectAnimator.ofInt(progressBar2, "progress", 0);
+        animation2 = ObjectAnimator.ofInt(progressBar2, "progress", 0);
         animation2.setDuration(5000); // 5 second
         animation2.setInterpolator(new DecelerateInterpolator());
         animation2.addListener(new Animator.AnimatorListener() {
@@ -158,28 +201,30 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
             @Override
             public void onAnimationEnd(Animator animator) {
                 // Timer end 5 seconds
-                player1_linear_row1.setVisibility(View.GONE);
-                player1_linear_row2.setVisibility(View.GONE);
+                playerA_linear_row1.setVisibility(View.GONE);
+                playerA_linear_row2.setVisibility(View.GONE);
 
-                player2_hitme_Button.setEnabled(true);
-                player1_hitme_Button.setEnabled(false);
+                playerB_hitme_Button.setEnabled(true);
+                playerA_hitme_Button.setEnabled(false);
 
-                player1_hitme_Button.setVisibility(View.VISIBLE);
+                playerA_hitme_Button.setVisibility(View.VISIBLE);
                 progressBar1.setMax(mp.getDuration());
                 progressBar1.setProgress(mp.getDuration());
+
+                playerA_linearlayout.setGravity(Gravity.TOP);
 
                 progressBar2.setMax(mp.getDuration());
                 progressBar2.setProgress(mp.getDuration());
 
-                if(!playerChance){
+                if (!playerChance) {
                     songChoice--; // Goto previous music, for other play chance
                     playerChance = true;
                     play_music();
-                }else{
+                } else {
                     // End of chance play new music
-                    player1_hitme_Button.setEnabled(true);
-                    player2_hitme_Button.setEnabled(true);
                     playerChance = false;
+                    playerA_hitme_Button.setEnabled(true);
+                    playerB_hitme_Button.setEnabled(true);
                     play_music();
                 }
                 return;
@@ -198,13 +243,14 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
         animation2.start();
     }
 
-    private void player2_hitme_Button(View view, String humble) {
-        player2_linear_row1.setVisibility(View.VISIBLE);
-        player2_linear_row2.setVisibility(View.VISIBLE);
-        player1_hitme_Button.setEnabled(false);
-        player2_hitme_Button.setVisibility(View.GONE);
+    private void playerB_hitme_Button(View view, String humble) {
+        playerB_linear_row1.setVisibility(View.VISIBLE);
+        playerB_linear_row2.setVisibility(View.VISIBLE);
+        playerA_hitme_Button.setEnabled(false);
+        playerB_hitme_Button.setVisibility(View.GONE);
+        playerB_linearlayout.setGravity(Gravity.CENTER);
 
-        loadTextButtons(view, humble, player2_buttons);
+        loadTextButtons(view, humble, playerB_buttons);
 
         service.shutdown();
         mp.stop();
@@ -215,12 +261,12 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
         progressBar2.setMax(100);
         progressBar2.setProgress(100);
 
-        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar1, "progress", 0);
+        animation = ObjectAnimator.ofInt(progressBar1, "progress", 0);
         animation.setDuration(5000); // 5 second
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
 
-        ObjectAnimator animation2 = ObjectAnimator.ofInt(progressBar2, "progress", 0);
+        animation2 = ObjectAnimator.ofInt(progressBar2, "progress", 0);
         animation2.setDuration(5000); // 5 second
         animation2.setInterpolator(new DecelerateInterpolator());
         animation2.addListener(new Animator.AnimatorListener() {
@@ -232,28 +278,30 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
             @Override
             public void onAnimationEnd(Animator animator) {
                 // Timer end 5 seconds
-                player2_linear_row1.setVisibility(View.GONE);
-                player2_linear_row2.setVisibility(View.GONE);
+                playerB_linear_row1.setVisibility(View.GONE);
+                playerB_linear_row2.setVisibility(View.GONE);
 
-                player1_hitme_Button.setEnabled(true);
-                player2_hitme_Button.setEnabled(false);
+                playerA_hitme_Button.setEnabled(true);
+                playerB_hitme_Button.setEnabled(false);
 
-                player2_hitme_Button.setVisibility(View.VISIBLE);
+                playerB_hitme_Button.setVisibility(View.VISIBLE);
                 progressBar1.setMax(mp.getDuration());
                 progressBar1.setProgress(mp.getDuration());
+
+                playerB_linearlayout.setGravity(Gravity.BOTTOM);
 
                 progressBar2.setMax(mp.getDuration());
                 progressBar2.setProgress(mp.getDuration());
 
-                if(!playerChance){
+                if (!playerChance) {
                     songChoice--; //Goto previous music, for other play chance
                     playerChance = true;
                     play_music();
-                }else{
+                } else {
                     // End of chance play new music
                     playerChance = false;
-                    player1_hitme_Button.setEnabled(true);
-                    player2_hitme_Button.setEnabled(true);
+                    playerA_hitme_Button.setEnabled(true);
+                    playerB_hitme_Button.setEnabled(true);
                     play_music();
                 }
                 return;
@@ -312,27 +360,47 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
 
     }
 
-    private void play_music() {
+    private void playNextMusic(boolean playerA) {
 
-        Song song = new Song("pop1_congratulations","Congratulations");
-        albumSong.add(song);
+        // Stop 5 seconds countdown
+        animation.removeAllListeners();
+        animation.end();
+        animation.cancel();
+        animation2.removeAllListeners();
+        animation2.end();
+        animation2.cancel();
 
-        song = new Song("pop2_hayaan_mo_sila","Hayaan Mo Sila");
-        albumSong.add(song);
-
-        song = new Song("pop3_humble","Humble");
-        albumSong.add(song);
-
-        song = new Song("pop4_mask_off","Mask Off");
-        albumSong.add(song);
-
-
-        if ((songChoice+1) == albumSong.size()){
-            // no more music
-            return;
+        if(playerA){
+            playerA_linear_row1.setVisibility(View.GONE);
+            playerA_linear_row2.setVisibility(View.GONE);
+            playerB_hitme_Button.setEnabled(true);
+            playerA_hitme_Button.setEnabled(false);
+            playerA_hitme_Button.setVisibility(View.VISIBLE);
+            playerA_linearlayout.setGravity(Gravity.TOP);
+        }else{
+            playerB_linear_row1.setVisibility(View.GONE);
+            playerB_linear_row2.setVisibility(View.GONE);
+            playerA_hitme_Button.setEnabled(true);
+            playerB_hitme_Button.setEnabled(false);
+            playerB_hitme_Button.setVisibility(View.VISIBLE);
+            playerB_linearlayout.setGravity(Gravity.BOTTOM);
         }
 
-        mp = MediaPlayer.create(getContext(), getSongIdByName(getContext(), albumSong.get(songChoice).getSongID()));
+        playerChance = false;
+        playerA_hitme_Button.setEnabled(true);
+        playerB_hitme_Button.setEnabled(true);
+        play_music();
+    }
+
+    private void play_music() {
+        if (songChoice == albumSong.size()) {
+            // no more music
+            playerA_hitme_Button.setEnabled(false);
+            playerB_hitme_Button.setEnabled(false);
+            Toast.makeText(getContext(), "No more song", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mp = MediaPlayer.create(getContext(), activityView.getSongIdByName(getContext(), albumSong.get(songChoice).getSongID()));
         setCorrectAnswer(albumSong.get(songChoice).getSongTitle());
         ++songChoice; // Increment for the next music
 
@@ -351,8 +419,8 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
                 public void onCompletion(MediaPlayer mediaPlayer) {
                     service.shutdown();
                     playerChance = false;
-                    player1_hitme_Button.setEnabled(true);
-                    player2_hitme_Button.setEnabled(true);
+                    playerA_hitme_Button.setEnabled(true);
+                    playerB_hitme_Button.setEnabled(true);
 
                     progressBar1.setMax(0);
                     progressBar2.setMax(0);
@@ -397,15 +465,49 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
 
     }
 
-    public static int getSongIdByName(Context c, String ImageName) {
-        return c.getResources().getIdentifier(ImageName, "raw", c.getPackageName());
-    }
-
     public String getCorrectAnswer() {
         return correctAnswer;
     }
 
     public void setCorrectAnswer(String correctAnswer) {
         this.correctAnswer = correctAnswer;
+    }
+
+    private void incrementScore(View view, boolean playerA) {
+        if (playerA) {
+            ++playerAScore;
+            playerA_hitme_Button.setText("Player B \n\n " + playerAScore);
+            playNextMusic(true);
+        } else {
+            ++playerBScore;
+            playerB_hitme_Button.setText("Player B\n\n " + playerBScore);
+            playNextMusic(false);
+        }
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (whereIsCorrectAnswer == 1 && view.getId() == R.id.p1_btn1) {
+            incrementScore(view, true);
+        } else if (whereIsCorrectAnswer == 2 && view.getId() == R.id.p1_btn2) {
+            incrementScore(view, true);
+        } else if (whereIsCorrectAnswer == 3 && view.getId() == R.id.p1_btn3) {
+            incrementScore(view, true);
+        } else if (whereIsCorrectAnswer == 4 && view.getId() == R.id.p1_btn4) {
+            incrementScore(view, true);
+        } else if (whereIsCorrectAnswer == 1 && view.getId() == R.id.p2_btn1) {
+            incrementScore(view, false);
+        } else if (whereIsCorrectAnswer == 2 && view.getId() == R.id.p2_btn2) {
+            incrementScore(view, false);
+        } else if (whereIsCorrectAnswer == 3 && view.getId() == R.id.p2_btn3) {
+            incrementScore(view, false);
+        } else if (whereIsCorrectAnswer == 4 && view.getId() == R.id.p2_btn4) {
+            incrementScore(view, false);
+        } else {
+            // Incorrect
+            Toast.makeText(getContext(), "Incorrect", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

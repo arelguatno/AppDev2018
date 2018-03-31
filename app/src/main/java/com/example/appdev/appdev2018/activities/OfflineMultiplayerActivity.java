@@ -1,6 +1,5 @@
 package com.example.appdev.appdev2018.activities;
 
-import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.appdev.appdev2018.R;
