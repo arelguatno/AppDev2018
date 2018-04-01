@@ -7,11 +7,11 @@
 
 
     <LinearLayout
+        android:id="@+id/player1_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
         android:gravity="top"
-        android:id="@+id/player1_linearlayout"
         android:orientation="vertical">
 
         <Button
@@ -19,18 +19,18 @@
             android:layout_width="150dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:rotation="-180"
             android:lines="3"
-            android:visibility="visible"
-            android:text="Player A\n\n0" />
+            android:rotation="-180"
+            android:text="Player A\n\n0"
+            android:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/player1_linear_row1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/p1_btn1"
@@ -59,8 +59,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/p1_btn3"
@@ -147,11 +147,11 @@
         android:layout_weight="3">
 
         <LinearLayout
+            android:id="@+id/player2_linearlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/player2_linearlayout"
-            android:gravity="bottom">
+            android:gravity="bottom"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/player2_linear_row1"
@@ -159,8 +159,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <Button
                     android:id="@+id/p2_btn1"
@@ -186,8 +186,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <Button
                     android:id="@+id/p2_btn3"
@@ -213,8 +213,8 @@
                 android:id="@+id/player2_hitme_Button"
                 android:layout_width="150dp"
                 android:layout_height="100dp"
-                android:lines="3"
                 android:layout_gravity="center_horizontal"
+                android:lines="3"
                 android:text="Player B\n\n 0"
                 android:visibility="visible" />
         </LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.appdev.appdev2018.activities;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.example.appdev.appdev2018.R;
 import com.example.appdev.appdev2018.fragments.TwoPlayerLocal;
@@ -12,6 +13,8 @@ public class LocalMultiplayerActivity extends BaseActivity implements TwoPlayerL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setToFullScreen();
+        // Keep the screen on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         db = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_offline_multiplayer);

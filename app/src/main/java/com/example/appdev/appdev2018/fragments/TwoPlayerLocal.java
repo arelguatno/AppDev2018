@@ -115,10 +115,19 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
         p2_btn4 = view.findViewById(R.id.p2_btn4);
         p2_btn4.setOnClickListener(this);
 
-        // Load songs
-
+        // Add songs
         albumSong.clear();
-        Song song = new Song("pop1_congratulations", "Congratulations");
+
+        Song song = new Song("pop5_chandelier", "Chandelier");
+        albumSong.add(song);
+
+        song = new Song("pop6_dusk_till_dawn", "Dusk Till Dawn");
+        albumSong.add(song);
+
+        song = new Song("pop7_all_of_me", "All of me");
+        albumSong.add(song);
+
+        song = new Song("pop1_congratulations", "Congratulations");
         albumSong.add(song);
 
         song = new Song("pop2_hayaan_mo_sila", "Hayaan Mo Sila");
@@ -129,6 +138,8 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
 
         song = new Song("pop4_mask_off", "Mask Off");
         albumSong.add(song);
+
+
 
         play_music();
 
@@ -349,7 +360,6 @@ public class TwoPlayerLocal extends Fragment implements TwoPlayerLocal_ViewEvent
     }
 
     private void playNextMusic(boolean playerA) {
-
         // Stop 5 seconds countdown
         animation.removeAllListeners();
         animation.end();
