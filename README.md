@@ -1,3 +1,3 @@
 # AppDev2018
 
-Firebase Hackathon Winning app.
+Developer Platform support. Firebase Hackathon Winning app year 2 (2017)
